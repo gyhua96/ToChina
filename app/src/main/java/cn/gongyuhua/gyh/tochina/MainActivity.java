@@ -54,15 +54,6 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
     }
 
 
@@ -116,9 +107,26 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
+            View rootView=null;
+            switch (getArguments().getInt(ARG_SECTION_NUMBER)){
+                case 0:
+                    rootView=inflater.inflate(R.layout.recommend,container,false);
+                    break;
+                case 1:
+                    rootView=inflater.inflate(R.layout.destination,container,false);
+                    break;
+                case 2:
+                    rootView=inflater.inflate(R.layout.personalized,container,false);
+                    break;
+                case 3:
+                    rootView=inflater.inflate(R.layout.community,container,false);
+            }
+
+            /*
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            */
             return rootView;
         }
     }
@@ -143,18 +151,20 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 4;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "SECTION 1";
+                    return getResources().getString(R.string.recommend);
                 case 1:
-                    return "SECTION 2";
+                    return getResources().getString(R.string.destination);
                 case 2:
-                    return "SECTION 3";
+                    return getResources().getString(R.string.personalized);
+                case 3:
+                    return getResources().getString(R.string.community);
             }
             return null;
         }
