@@ -1,5 +1,6 @@
 package cn.gongyuhua.gyh.tochina;
 
+import android.os.StrictMode;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -108,18 +110,20 @@ public class MainActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView=null;
+            //分别渲染4个页面
             switch (getArguments().getInt(ARG_SECTION_NUMBER)){
-                case 0:
+                case 1:
                     rootView=inflater.inflate(R.layout.recommend,container,false);
                     break;
-                case 1:
+                case 2:
                     rootView=inflater.inflate(R.layout.destination,container,false);
                     break;
-                case 2:
+                case 3:
                     rootView=inflater.inflate(R.layout.personalized,container,false);
                     break;
-                case 3:
+                case 4:
                     rootView=inflater.inflate(R.layout.community,container,false);
+                    break;
             }
 
             /*
