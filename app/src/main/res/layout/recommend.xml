@@ -1,21 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:background="@color/colorAccent"
-        android:layout_weight="1"
+        android:layout_weight="10"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_weight="8"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+            <ImageView
+                android:scaleType="matrix"
+                android:id="@+id/recommend_attraction_pic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/recommend" />
+
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/recommend_attraction_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ffffff"
+                android:text="Various tourist attractions in Gansu" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:background="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:id="@+id/comment_destination"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Comment on the destination i've been to" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
         android:background="@color/colorPrimary"
-        android:layout_weight="1"
+        android:layout_weight="10"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_weight="8"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal">
+        </LinearLayout>
+        <LinearLayout
+            android:background="@android:color/white"
+            android:layout_weight="2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal">
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
