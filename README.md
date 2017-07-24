@@ -8,6 +8,7 @@ layout-port为正常竖屏时的布局layout-land为横屏时的布局，一般�
 待完成任务：<br/>
      destination页面布局<br/>
      community页面布局<br/>
+     各页面内功能实现(难点)
      国际化(多国语言适配)<br/>
      等其它内容<br/>
 
