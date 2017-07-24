@@ -31,7 +31,7 @@
             <TextView
                 android:id="@+id/recommend_attraction_text"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Various tourist attractions in Gansu"
                 android:textAlignment="center"
@@ -60,8 +60,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_margin="5dp"
         android:layout_weight="10"
         android:background="#fceaea"
+        android:elevation="3dp"
         android:orientation="vertical">
 
         <FrameLayout
