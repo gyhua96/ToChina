@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">中国行</string>
+    <string name="action_settings">设置</string>
+    <string name="recommend">推荐</string>
+    <string name="destination">目的地</string>
+    <string name="personalized">个性化</string>
+    <string name="community">社会</string>
+
+
+    <string name="username">测试用户</string>
+    <string name="user_tip">文字可以被替换</string>
+</resources>
