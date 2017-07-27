@@ -9,6 +9,7 @@ layout-port为正常竖屏时的布局layout-land为横屏时的布局，一般�
 进行中：<br/>
     国际化(多国语言适配)<br/>
     community页面<br/>
+    destination页面
 待完成任务：<br/>
     启动界面修改<br/>
     destination页面布局<br/>
