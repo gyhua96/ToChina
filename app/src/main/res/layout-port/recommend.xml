@@ -144,7 +144,7 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="12dp"
                 android:background="@drawable/custom_button"
-                android:text="Button" />
+                android:text="登录测试" />
 
             <Button
                 android:id="@+id/button2"

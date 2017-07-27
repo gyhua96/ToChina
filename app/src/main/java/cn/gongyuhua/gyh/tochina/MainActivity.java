@@ -1,5 +1,6 @@
 package cn.gongyuhua.gyh.tochina;
 
+import android.content.Intent;
 import android.os.StrictMode;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -43,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -149,6 +149,9 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
+            if(position==0){
+                return Recommend.newInstance(null,null);
+            }
             return PlaceholderFragment.newInstance(position + 1);
         }
 
