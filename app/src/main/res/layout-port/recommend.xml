@@ -63,7 +63,7 @@
         android:layout_height="0dp"
         android:layout_margin="5dp"
         android:layout_weight="10"
-        android:background="#fceaea"
+        android:background="@android:color/white"
         android:elevation="3dp"
         android:orientation="vertical">
 
@@ -78,8 +78,6 @@
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
                 app:srcCompat="@drawable/recommend_for_you" />
-
-
             <TextView
                 android:textSize="65px"
                 android:id="@+id/recommend_for_you_text"

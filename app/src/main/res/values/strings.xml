@@ -24,4 +24,8 @@
     <string name="error_field_required">这是必填项</string>
     <string name="action_sign_up">注册</string>
 
+    <string name="title_activity_launch">LaunchActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
 </resources>
