@@ -3,6 +3,7 @@ package cn.gongyuhua.gyh.tochina;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -67,6 +68,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         View headView = navigationView.getHeaderView(0);
         ImageView user=headView.findViewById(R.id.userImage);
+        TextView userid=headView.findViewById(R.id.userID);
+        userid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+                if (sharedPreferences.getString("user", "").equals("")) {
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+
+                }else{
+                    //TODO jump to user area.
+                }
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
         user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+
         //Change the user's information dynamic.
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
@@ -95,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                                      @Override
                                      public void onDrawerOpened(View v) {
+                                         // Update user info when drawer is opened
                                          NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
                                          View headView = navigationView.getHeaderView(0);
                                          TextView userID = headView.findViewById(R.id.userID);

@@ -5,65 +5,54 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
 
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static android.Manifest.permission.READ_CONTACTS;
-
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity{
+public class LoginActivity extends AppCompatActivity {
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+    private UserLoginTask mLoginTask = null;
+    private UserSignUpTask mSignUpTask=null;
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
+    private EditText mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+
+    private boolean isSignIn = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mEmailView = (EditText) findViewById(R.id.email);
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -74,6 +63,30 @@ public class LoginActivity extends AppCompatActivity{
                     return true;
                 }
                 return false;
+            }
+        });
+
+        TextView signText = (TextView) findViewById(R.id.sign_text);
+        signText.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isSignIn) {
+                    LinearLayout lin = (LinearLayout) findViewById(R.id.email_login_form);
+                    LayoutInflater inflater = LayoutInflater.from(LoginActivity.this);
+                    View signUp = inflater.inflate(R.layout.sign_up_form, null);
+                    lin.addView(signUp);
+                    isSignIn = false;
+                    ((TextView) findViewById(R.id.sign_text)).setText(getString(R.string.action_sign_in));
+                    ((Button) findViewById(R.id.email_sign_in_button)).setText(getString(R.string.action_sign_up));
+                }else {
+                    LinearLayout lin = (LinearLayout) findViewById(R.id.email_login_form);
+                    View signUp = findViewById(R.id.sign_up);
+                    lin.removeView(signUp);
+                    isSignIn = true;
+                    ((TextView) findViewById(R.id.sign_text)).setText(getString(R.string.action_sign_up));
+                    ((Button) findViewById(R.id.email_sign_in_button)).setText(getString(R.string.action_sign_in));
+                }
+
             }
         });
 
@@ -94,8 +107,9 @@ public class LoginActivity extends AppCompatActivity{
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
+
     private void attemptLogin() {
-        if (mAuthTask != null) {
+        if (mLoginTask != null) {
             return;
         }
 
@@ -136,8 +150,13 @@ public class LoginActivity extends AppCompatActivity{
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            if(isSignIn) {
+                mLoginTask = new UserLoginTask(email, password);
+                mLoginTask.execute((Void) null);
+            }else {
+                mSignUpTask = new UserSignUpTask(email, password,"teststr1","teststr2");
+                mSignUpTask.execute((Void) null);
+            }
         }
     }
 
@@ -185,6 +204,75 @@ public class LoginActivity extends AppCompatActivity{
         }
     }
 
+
+    public class UserSignUpTask extends AsyncTask<Void,Void,Boolean> {
+
+        private final String mEmail;
+        private final String mPassword;
+        private final String mtest1;
+        private final String mtest2;
+        private String token;
+
+        UserSignUpTask(String email, String password,String test1,String test2) {
+            mEmail = email;
+            mPassword = password;
+            mtest1=test1;
+            mtest2=test2;
+
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
+            try {
+                // Simulate network access.
+                //Thread.sleep(2000);
+                String api = "http://gongyuhua.cn/tochina/signup.php";
+                String data = "user=" + mEmail + "&pwd=" + mPassword+"&test1="+mtest1+"&test2="+mtest2;
+                String res = HTTP.HttpPost(api, data);
+                JsonParser parser = new JsonParser();
+                JsonObject json = (JsonObject) parser.parse(res);
+                if (json.get("status").toString().equals("error")) {
+                    return false;
+                }
+                Log.d("login", res);
+            } catch (Exception e) {
+                return false;
+            }
+            /*
+            SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("user", mEmail);
+            editor.putString("token", token);
+            editor.apply();
+            editor.commit();
+*/
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mSignUpTask = null;
+            showProgress(false);
+
+            if (success) {
+                Toast toast = Toast.makeText(getWindow().getDecorView().findViewById(android.R.id.content).getContext(),
+                        "Sign Up success!", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                finish();
+            } else {
+                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                mPasswordView.requestFocus();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mSignUpTask = null;
+            showProgress(false);
+        }
+    }
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
@@ -206,22 +294,21 @@ public class LoginActivity extends AppCompatActivity{
             try {
                 // Simulate network access.
                 //Thread.sleep(2000);
-                String api="http://gongyuhua.cn/tochina/login.php";
-                String data="user="+mEmail+"&pwd="+mPassword;
-                String res=HTTP.HttpPost(api,data);
-                JsonParser parser=new JsonParser();
-                JsonObject json=(JsonObject)parser.parse(res);
-                if(json.get("status").toString().equals("error")){
+                String api = "http://gongyuhua.cn/tochina/login.php";
+                String data = "user=" + mEmail + "&pwd=" + mPassword;
+                String res = HTTP.HttpPost(api, data);
+                JsonParser parser = new JsonParser();
+                JsonObject json = (JsonObject) parser.parse(res);
+                if (json.get("status").toString().equals("error")) {
                     return false;
                 }
-                token=json.get("token").toString();
-                Log.d("login",res);
-                Log.d("login",token);
+                token = json.get("token").toString();
+                Log.d("login", res);
+                Log.d("login", token);
             } catch (Exception e) {
                 return false;
             }
 
-            // TODO: register the new account here.
             SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("user", mEmail);
@@ -234,12 +321,12 @@ public class LoginActivity extends AppCompatActivity{
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
+            mLoginTask = null;
             showProgress(false);
 
             if (success) {
                 Toast toast = Toast.makeText(getWindow().getDecorView().findViewById(android.R.id.content).getContext(),
-                    "Login success!", Toast.LENGTH_SHORT);
+                        "Login success!", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
                 finish();
@@ -251,7 +338,7 @@ public class LoginActivity extends AppCompatActivity{
 
         @Override
         protected void onCancelled() {
-            mAuthTask = null;
+            mLoginTask = null;
             showProgress(false);
         }
     }

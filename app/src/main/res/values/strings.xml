@@ -4,7 +4,7 @@
     <string name="recommend">推荐</string>
     <string name="destination">目的地</string>
     <string name="personalized">个性化</string>
-    <string name="community">社会</string>
+    <string name="community">社区</string>
 
 
     <string name="username">测试用户</string>
@@ -22,5 +22,6 @@
     <string name="error_invalid_password">密码长度不正确</string>
     <string name="error_incorrect_password">用户名或密码不正确</string>
     <string name="error_field_required">这是必填项</string>
+    <string name="action_sign_up">注册</string>
 
 </resources>

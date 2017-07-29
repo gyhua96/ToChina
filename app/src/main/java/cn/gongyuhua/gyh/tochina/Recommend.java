@@ -2,6 +2,7 @@ package cn.gongyuhua.gyh.tochina;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,12 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Recommend.OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link Recommend#newInstance} factory method to
  * create an instance of this fragment.
@@ -67,6 +70,12 @@ public class Recommend extends Fragment {
         // Inflate the layout for this fragment
         View rootview =inflater.inflate(R.layout.recommend, container, false);
         Button bt=rootview.findViewById(R.id.button3);
+        Typeface typeFace = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Permanen.ttf");
+        TextView recommend_attraction_text=rootview.findViewById(R.id.recommend_attraction_text);
+        TextView recommend_for_you_text=rootview.findViewById(R.id.recommend_for_you_text);
+        recommend_attraction_text.setTypeface(typeFace);
+        recommend_for_you_text.setTypeface(typeFace);
+
         bt.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {//当click事件发生时会调用这个onclick方法
                 Intent intent=new Intent(getContext(),LoginActivity.class);
