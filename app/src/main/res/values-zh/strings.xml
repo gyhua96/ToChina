@@ -7,7 +7,7 @@
     <string name="community">社区</string>
 
 
-    <string name="username">测试用户</string>
+    <string name="username">登录</string>
     <string name="user_tip">文字可以被替换</string>
 
     
@@ -23,5 +23,7 @@
     <string name="error_incorrect_password">用户名或密码不正确</string>
     <string name="error_field_required">这是必填项</string>
     <string name="action_sign_up">注册</string>
+    <string name="skip">跳过</string>
+    <string name="title_activity_launch">启动页</string>
 
 </resources>

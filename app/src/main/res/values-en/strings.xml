@@ -6,7 +6,7 @@
     <string name="destination">Destination</string>
     <string name="personalized">Personalized</string>
     <string name="community">Community</string>
-    <string name="username">TestUser</string>
+    <string name="username">Login</string>
     <string name="user_tip">This message can be changed.</string>
 
     <string name="enterance">Enterance</string>
@@ -24,5 +24,7 @@
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="action_sign_up">Sign up</string>
+    <string name="skip">Skip</string>
+    <string name="title_activity_launch">LaunchActivity</string>
 
 </resources>
