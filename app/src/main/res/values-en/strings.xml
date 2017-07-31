@@ -26,5 +26,9 @@
     <string name="action_sign_up">Sign up</string>
     <string name="skip">Skip</string>
     <string name="title_activity_launch">LaunchActivity</string>
+    <string name="error_user_exists">User exists</string>
+    <string name="sign_up_success">Sign up success</string>
+    <string name="province">Province</string>
+    <string name="login_success">Login success</string>
 
 </resources>

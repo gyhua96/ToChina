@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.icu.text.LocaleDisplayNames;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.AsyncTask;
@@ -58,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
     private String[] mProvinceDatas={"北京市","天津市","河北省","山西省","内蒙古自治区","辽宁省","吉林省","黑龙江省","上海市","江苏省","浙江省","安徽省","福建省","江西省","山东省","河南省","湖北省","湖南省","广东省","广西壮族自治区","海南省","重庆市","四川省","贵州省","云南省","西藏自治区","陕西省","甘肃省","青海省","宁夏回族自治区","新疆维吾尔自治区","香港特别行政区","澳门特别行政区","台湾省"};
     private WheelView mProvince;
     private Map<String, String[]> mCitisDatasMap = new HashMap<String, String[]>();
-    private String mCurrentProviceName;
+    private String mCurrentProviceName="北京市";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +95,6 @@ public class LoginActivity extends AppCompatActivity {
 
                     mProvince = (WheelView) findViewById(R.id.id_province);
 
-                    mProvince.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                     mProvince.setViewAdapter(new ArrayWheelAdapter<String>(getWindow().getContext(), mProvinceDatas));
                     mProvince.addChangingListener(new OnWheelChangedListener() {
                         @Override
@@ -146,7 +146,7 @@ public class LoginActivity extends AppCompatActivity {
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
-
+        String province=mCurrentProviceName;
         boolean cancel = false;
         View focusView = null;
 
@@ -179,9 +179,11 @@ public class LoginActivity extends AppCompatActivity {
             if(isSignIn) {
                 mLoginTask = new UserLoginTask(email, password);
                 mLoginTask.execute((Void) null);
+                Log.d("logintask","login");
             }else {
-                mSignUpTask = new UserSignUpTask(email, password,"teststr1","teststr2");
+                mSignUpTask = new UserSignUpTask(email, password,province,"teststr2");
                 mSignUpTask.execute((Void) null);
+                Log.d("logintask","signup");
             }
         }
     }
@@ -235,14 +237,14 @@ public class LoginActivity extends AppCompatActivity {
 
         private final String mEmail;
         private final String mPassword;
-        private final String mtest1;
+        private final String mProvince;
         private final String mtest2;
         private String token;
-
-        UserSignUpTask(String email, String password,String test1,String test2) {
+        private String  status;
+        UserSignUpTask(String email, String password,String province,String test2) {
             mEmail = email;
             mPassword = password;
-            mtest1=test1;
+            mProvince =province;
             mtest2=test2;
 
         }
@@ -251,28 +253,27 @@ public class LoginActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
 
             try {
-                // Simulate network access.
-                //Thread.sleep(2000);
+
                 String api = "http://gongyuhua.cn/tochina/signup.php";
-                String data = "user=" + mEmail + "&pwd=" + mPassword+"&test1="+mtest1+"&test2="+mtest2;
+                String data = "user=" + mEmail + "&pwd=" + mPassword+"&province="+ mProvince +"&4name="+mtest2;
                 String res = HTTP.HttpPost(api, data);
                 JsonParser parser = new JsonParser();
                 JsonObject json = (JsonObject) parser.parse(res);
                 if (json.get("status").toString().equals("error")) {
+                    status=json.get("info").toString();
                     return false;
                 }
-                Log.d("login", res);
+                token=json.get("token").toString();
             } catch (Exception e) {
                 return false;
             }
-            /*
+
             SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("user", mEmail);
             editor.putString("token", token);
             editor.apply();
             editor.commit();
-*/
             return true;
         }
 
@@ -283,13 +284,14 @@ public class LoginActivity extends AppCompatActivity {
 
             if (success) {
                 Toast toast = Toast.makeText(getWindow().getDecorView().findViewById(android.R.id.content).getContext(),
-                        "Sign Up success!", Toast.LENGTH_SHORT);
+                        getString(R.string.sign_up_success), Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
                 finish();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                if(status.equals("user_exists"))
+                mEmailView.setError(getString(R.string.error_user_exists));
+                mEmailView.requestFocus();
             }
         }
 
@@ -318,8 +320,7 @@ public class LoginActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
 
             try {
-                // Simulate network access.
-                //Thread.sleep(2000);
+
                 String api = "http://gongyuhua.cn/tochina/login.php";
                 String data = "user=" + mEmail + "&pwd=" + mPassword;
                 String res = HTTP.HttpPost(api, data);
@@ -329,8 +330,6 @@ public class LoginActivity extends AppCompatActivity {
                     return false;
                 }
                 token = json.get("token").toString();
-                Log.d("login", res);
-                Log.d("login", token);
             } catch (Exception e) {
                 return false;
             }
@@ -352,7 +351,7 @@ public class LoginActivity extends AppCompatActivity {
 
             if (success) {
                 Toast toast = Toast.makeText(getWindow().getDecorView().findViewById(android.R.id.content).getContext(),
-                        "Login success!", Toast.LENGTH_SHORT);
+                        getString(R.string.login_success), Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
                 finish();

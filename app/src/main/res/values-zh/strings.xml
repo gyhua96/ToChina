@@ -25,5 +25,9 @@
     <string name="action_sign_up">注册</string>
     <string name="skip">跳过</string>
     <string name="title_activity_launch">启动页</string>
+    <string name="error_user_exists">用户已存在</string>
+    <string name="sign_up_success">注册成功</string>
+    <string name="province">省份</string>
+    <string name="login_success">登录成功</string>
 
 </resources>
