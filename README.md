@@ -4,6 +4,7 @@ layout-port为正常竖屏时的布局layout-land为横屏时的布局，一般�
 - 基本完成整体结构，由gyhua96负责<br/>
 - recommend页布局基本完成，由gyhua96负责<br/>
 - personalized页面布局基本完成，由ruanyulin2017负责<br/>
+-community页面布局基本完成，由ruanyulin2017负责<br/>
 - 添加导航页部分<br/>
 
 ## 进行中：<br/>
