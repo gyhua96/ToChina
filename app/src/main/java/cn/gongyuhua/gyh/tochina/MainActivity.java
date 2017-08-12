@@ -1,26 +1,20 @@
 package cn.gongyuhua.gyh.tochina;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
-import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,8 +23,6 @@ import android.view.ViewGroup;
 
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -63,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.removeAllTabs();
         tabLayout.setupWithViewPager(mViewPager);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -166,7 +159,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     /**
      * A placeholder fragment containing a simple view.
      */
+    @SuppressLint("ValidFragment")
     public static class PlaceholderFragment extends Fragment {
+        private ViewPager viewPager;
+        private int flag = 0;
+        private View view = null;
+        private TabLayout tabLayout;
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -205,6 +203,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     break;
                 case 4:
                     rootView = inflater.inflate(R.layout.community, container, false);
+                    flag = 1;
+                    view = rootView;
                     break;
             }
 
@@ -213,6 +213,68 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             */
+            return rootView;
+        }
+
+        @Override
+        public void onActivityCreated(Bundle save) {
+            super.onActivityCreated(save);
+            if (flag == 1){
+                SectionsPagerAdapter_second sectionsPagerAdapter_second;
+                sectionsPagerAdapter_second = new SectionsPagerAdapter_second(getChildFragmentManager());
+                viewPager = (ViewPager) view.findViewById(R.id.container1);
+                //TextView textView = (TextView) tab.findViewById(R.id.tab_text42);
+                viewPager.setAdapter(sectionsPagerAdapter_second);
+                tabLayout = (TabLayout) view.findViewById(R.id.tabs1);
+                //FragmentPagerAdapter adapter = new SectionsPagerAdapter_second(getChildFragmentManager());
+
+                //final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,4,getResources().getDisplayMetrics());
+                //viewPager.setPageMargin(pageMargin);
+                viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+                tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
+            }
+
+
+        }
+
+
+    }
+
+    //Tab41\42
+    public static class PlaceholderFragment_second extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        public PlaceholderFragment_second() {
+        }
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static PlaceholderFragment_second newInstance(int sectionNumber) {
+            PlaceholderFragment_second fragment = new PlaceholderFragment_second();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = null;
+            switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
+                case 1:
+                    rootView = inflater.inflate(R.layout.enterance,container,false);
+                    break;
+                case 2:
+                    rootView = inflater.inflate(R.layout.recommond,container,false);
+                    break;
+            }
             return rootView;
         }
     }
@@ -254,6 +316,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     return getResources().getString(R.string.personalized);
                 case 3:
                     return getResources().getString(R.string.community);
+            }
+            return null;
+        }
+    }
+
+    //tab41\42
+    public static class SectionsPagerAdapter_second extends FragmentPagerAdapter {
+
+        public SectionsPagerAdapter_second(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            // getItem is called to instantiate the fragment for the given page.
+            // Return a PlaceholderFragment (defined as a static inner class below).
+            return PlaceholderFragment_second.newInstance(position + 1);
+        }
+
+        @Override
+        public int getCount() {
+            // Show 3 total pages.
+            return 2;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return "recommond";
+                case 1:
+                    return "recommond";
             }
             return null;
         }

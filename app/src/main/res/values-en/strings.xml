@@ -6,11 +6,11 @@
     <string name="destination">Destination</string>
     <string name="personalized">Personalized</string>
     <string name="community">Community</string>
+    <string name="recommond">recommond</string>
     <string name="username">Login</string>
     <string name="user_tip">This message can be changed.</string>
 
     <string name="enterance">Enterance</string>
-    <string name="recommod">Recommod</string>
 
     <string name="title_activity_login">Sign in</string>
 
