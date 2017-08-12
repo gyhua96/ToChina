@@ -34,7 +34,7 @@
                     app:srcCompat="@drawable/recommend" />
 
                 <TextView
-                    android:textSize="65px"
+                    android:textSize="20sp"
                     android:id="@+id/recommend_attraction_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -85,7 +85,8 @@
 
 
                 <TextView
-                    android:textSize="65px"
+                    android:textSize="20sp"
+                    android:textAlignment="center"
                     android:id="@+id/recommend_for_you_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

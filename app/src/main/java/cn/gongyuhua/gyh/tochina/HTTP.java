@@ -27,7 +27,6 @@ public class HTTP {
         HttpURLConnection connection = null;
         String str = null;
         try {
-            //TODO replace the value of url
             URL url = new URL(Url);
             connection = (HttpURLConnection) url.openConnection();
             InputStream in = new BufferedInputStream(connection.getInputStream());

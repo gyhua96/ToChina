@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
@@ -64,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Set up the login form.
         mEmailView = (EditText) findViewById(R.id.email);
 
@@ -126,6 +128,28 @@ public class LoginActivity extends AppCompatActivity {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == android.R.id.home) {
+            if(mLoginTask!=null){
+                mLoginTask.cancel(true);
+            }
+            if(mSignUpTask!=null){
+                mSignUpTask.cancel(true);
+            }
+            finish();
+            return false;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -259,11 +283,11 @@ public class LoginActivity extends AppCompatActivity {
                 String res = HTTP.HttpPost(api, data);
                 JsonParser parser = new JsonParser();
                 JsonObject json = (JsonObject) parser.parse(res);
-                if (json.get("status").toString().equals("error")) {
-                    status=json.get("info").toString();
+                if (json.get("status").getAsString().equals("error")) {
+                    status=json.get("info").getAsString();
                     return false;
                 }
-                token=json.get("token").toString();
+                token=json.get("token").getAsString();
             } catch (Exception e) {
                 return false;
             }
@@ -326,10 +350,10 @@ public class LoginActivity extends AppCompatActivity {
                 String res = HTTP.HttpPost(api, data);
                 JsonParser parser = new JsonParser();
                 JsonObject json = (JsonObject) parser.parse(res);
-                if (json.get("status").toString().equals("error")) {
+                if (json.get("status").getAsString().equals("error")) {
                     return false;
                 }
-                token = json.get("token").toString();
+                token = json.get("token").getAsString();
             } catch (Exception e) {
                 return false;
             }
