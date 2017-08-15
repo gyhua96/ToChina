@@ -220,8 +220,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         public void onActivityCreated(Bundle save) {
             super.onActivityCreated(save);
             if (flag == 1){
-                SectionsPagerAdapter_second sectionsPagerAdapter_second;
-                sectionsPagerAdapter_second = new SectionsPagerAdapter_second(getChildFragmentManager());
+                PlaceholderFragment_second.SectionsPagerAdapter_second sectionsPagerAdapter_second;
+                sectionsPagerAdapter_second = new PlaceholderFragment_second.SectionsPagerAdapter_second(getChildFragmentManager());
                 viewPager = (ViewPager) view.findViewById(R.id.container1);
                 //TextView textView = (TextView) tab.findViewById(R.id.tab_text42);
                 viewPager.setAdapter(sectionsPagerAdapter_second);
@@ -240,44 +240,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    //Tab41\42
-    public static class PlaceholderFragment_second extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
 
-        public PlaceholderFragment_second() {
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment_second newInstance(int sectionNumber) {
-            PlaceholderFragment_second fragment = new PlaceholderFragment_second();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = null;
-            switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
-                case 1:
-                    rootView = inflater.inflate(R.layout.enterance,container,false);
-                    break;
-                case 2:
-                    rootView = inflater.inflate(R.layout.recommond,container,false);
-                    break;
-            }
-            return rootView;
-        }
-    }
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -321,37 +284,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    //tab41\42
-    public static class SectionsPagerAdapter_second extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter_second(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment_second.newInstance(position + 1);
-        }
-
-        @Override
-        public int getCount() {
-            // Show 3 total pages.
-            return 2;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "recommond";
-                case 1:
-                    return "recommond";
-            }
-            return null;
-        }
-    }
 
 
     //At this area we set the function of navigation page
