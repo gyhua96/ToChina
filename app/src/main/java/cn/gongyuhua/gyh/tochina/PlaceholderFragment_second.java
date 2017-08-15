@@ -1,12 +1,18 @@
 package cn.gongyuhua.gyh.tochina;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ruanyulin on 17-8-15.
@@ -14,6 +20,14 @@ import android.view.ViewGroup;
 
 //Tab41\42
 public class PlaceholderFragment_second extends Fragment {
+    private RecyclerView recyclerView;
+    private RecyclerView recyclerView1;
+    private View item;
+    private View item1;
+    private RecyclerAdapter recyclerAdapter;
+    private RecyclerAdapter_second recyclerAdapter_second;
+    private int flag = 0;
+    private List<String> data;
     /**
      * The fragment argument representing the section number for this
      * fragment.
@@ -41,13 +55,46 @@ public class PlaceholderFragment_second extends Fragment {
         View rootView = null;
         switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
             case 1:
-                rootView = inflater.inflate(R.layout.enterance,container,false);
+                rootView = inflater.inflate(R.layout.recommond,container,false);
+                item = rootView;
+                flag = 1;
                 break;
             case 2:
-                rootView = inflater.inflate(R.layout.recommond,container,false);
+                rootView = inflater.inflate(R.layout.enterance,container,false);
+                item1 = rootView;
+                flag = 2;
                 break;
         }
         return rootView;
+    }
+
+    //@SuppressLint("MissingSuperCall")
+    @Override
+    public void onActivityCreated(Bundle save){
+        super.onActivityCreated(save);
+        if (flag == 1){
+            initData();
+            recyclerView = (RecyclerView) item.findViewById(R.id.recyclerrecommond);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            recyclerAdapter = new RecyclerAdapter(getContext(),data);
+            recyclerView.setAdapter(recyclerAdapter);
+            //recyclerView.setHasFixedSize(false);
+            recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.VERTICAL));
+        }else {
+            initData();
+            recyclerView1 = (RecyclerView) item1.findViewById(R.id.recyclerenterance);
+            recyclerView1.setLayoutManager(new LinearLayoutManager(getContext()));
+            recyclerAdapter_second = new RecyclerAdapter_second(getContext(),data);
+            recyclerView1.setAdapter(recyclerAdapter_second);
+            //recyclerView.setHasFixedSize(false);
+            recyclerView1.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.VERTICAL));
+        }
+    }
+    protected void initData(){
+        data = new ArrayList<String>();
+        for (int i = 'a';i < 'z' ; i++){
+            data.add(" " + (char)i);
+        }
     }
     //tab41\42
     public static class SectionsPagerAdapter_second extends FragmentPagerAdapter {
