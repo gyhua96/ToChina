@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,7 @@ public class PlaceholderFragment_second extends Fragment {
     private RecyclerAdapter_second recyclerAdapter_second;
     private int flag = 0;
     private List<String> data;
+    private SwipeRefreshLayout swipeRefreshLayout;
     /**
      * The fragment argument representing the section number for this
      * fragment.
@@ -80,6 +83,15 @@ public class PlaceholderFragment_second extends Fragment {
             recyclerView.setAdapter(recyclerAdapter);
             //recyclerView.setHasFixedSize(false);
             recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.VERTICAL));
+            swipeRefreshLayout =(SwipeRefreshLayout) item.findViewById(R.id.refresh);
+            swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
+
+                @Override
+                public void onRefresh() {
+                    refresh();
+                }
+            });
         }else {
             initData();
             recyclerView1 = (RecyclerView) item1.findViewById(R.id.recyclerenterance);
@@ -88,7 +100,37 @@ public class PlaceholderFragment_second extends Fragment {
             recyclerView1.setAdapter(recyclerAdapter_second);
             //recyclerView.setHasFixedSize(false);
             recyclerView1.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.VERTICAL));
+            swipeRefreshLayout = (SwipeRefreshLayout) item1.findViewById(R.id.enfresh);
+            swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
+
+                @Override
+                public void onRefresh() {
+                    refresh();
+                }
+            });
         }
+    }
+    //data refresh
+    protected void refresh(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getContext(),"refresh data",Toast.LENGTH_SHORT).show();
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                });
+
+            }
+        }).start();
     }
     protected void initData(){
         data = new ArrayList<String>();
