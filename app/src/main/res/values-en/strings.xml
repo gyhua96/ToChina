@@ -31,4 +31,17 @@
     <string name="province">Province</string>
     <string name="login_success">Login success</string>
 
+    <!-- NavigationTitle-->
+    <string name="camera">Import</string>
+    <string name="gallery">Gallery</string>
+    <string name="slideshow">Slideshow</string>
+    <string name="tools">Tools</string>
+    <string name="share">Share</string>
+    <string name="send">Send</string>
+    <string name="setting">Setting</string>
+    <string name="about">About</string>
+
+    <string name="correlation">Correlation</string>
+    <string name="communicate">Communicate</string>
+
 </resources>

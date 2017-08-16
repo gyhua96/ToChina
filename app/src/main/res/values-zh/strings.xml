@@ -30,4 +30,18 @@
     <string name="province">省份</string>
     <string name="login_success">登录成功</string>
 
+    <!-- NavigationTitle-->
+    <string name="camera">相机</string>
+    <string name="gallery">相册</string>
+    <string name="slideshow">Slideshow</string>
+    <string name="tools">工具</string>
+    <string name="share">分享</string>
+    <string name="send">发送</string>
+    <string name="setting">设置</string>
+    <string name="about">关于</string>
+
+    <string name="correlation">相关</string>
+    <string name="communicate">联系</string>
+
+
 </resources>
